@@ -11,14 +11,14 @@ package com.mycompany.foodstorage;
 
 public class StorageUnit<T> implements DequeADT<T> {
 
-    private static final int CAPACITY = 8;   // Maximum number of trays
-    private final T[] trays;                 // Array that stores the items
-    private int front;                        // Position of the front item
-    private int rear;                         // Position of the rear item
-    private int size;                         // How many items are stored
+    private static final int CAPACITY = 8;   //Maximum number of trays
+    private final T[] trays;                 //Array that stores the items
+    private int front;                        //Position of the front item
+    private int rear;                         //Position of the rear item
+    private int size;                         //How many items are stored
 
     @SuppressWarnings("unchecked")
-    public StorageUnit() {                   // Creates an empty storage
+    public StorageUnit() {                   //Creates an empty storage
         trays = (T[]) new Object[CAPACITY];
         front = 0;
         rear = 0;
@@ -26,12 +26,12 @@ public class StorageUnit<T> implements DequeADT<T> {
     }
 
     @Override
-    public boolean isEmpty() {               // Checks if the storage is empty - O(1)
+    public boolean isEmpty() {               //Checks if the storage is empty - O(1)
         return size == 0;
     }
 
     @Override
-    public boolean isFull() {                // Checks if the storage is full - O(1)
+    public boolean isFull() {                //Checks if the storage is full - O(1)
         return size == CAPACITY;
     }
 
@@ -41,9 +41,20 @@ public class StorageUnit<T> implements DequeADT<T> {
     }
 
 
-    @Override
-    public void addFront(T item) {
-        throw new UnsupportedOperationException("Not implemented yet");
+       @Override
+    public void addFront(T item) {           //Adds an item at the front - O(1)
+        if (item == null) {                                  //Rejects empty items
+            throw new IllegalArgumentException("Item cannot be null.");
+        }
+        if (isFull()) {                                      //Storage already has 8 items
+            throw new IllegalStateException("Storage is full."); //replace with StorageFullException
+        }
+        front = (front - 1 + CAPACITY) % CAPACITY;           //Moves front one position back (wraps around)
+        trays[front] = item;                                 //Places the item at the new front
+        if (size == 0) {                                     //First item: front and rear are the same
+            rear = front;
+        }
+        size++;                                              //One more item stored
     }
 
     @Override
