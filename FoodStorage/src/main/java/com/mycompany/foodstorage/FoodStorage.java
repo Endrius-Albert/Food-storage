@@ -10,11 +10,14 @@ package com.mycompany.foodstorage;
  */
 public class FoodStorage {
 
-   public static void main(String[] args) {
+    public static void main(String[] args) {
         StorageUnit<String> storage = new StorageUnit<>();
         storage.addFront("Burger");
         storage.addFront("Pizza");
         storage.addFront("Fries");
-        System.out.println("Items stored: " + storage.size()); 
+
+        System.out.println("Removed from front: " + storage.removeFront());  
+        System.out.println("Removed from rear: " + storage.removeRear());    
+        System.out.println("Items left: " + storage.size());                        
     }
 }
