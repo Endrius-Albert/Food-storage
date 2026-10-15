@@ -68,13 +68,19 @@ public class StorageUnit<T> implements DequeADT<T> {
     }
 
     @Override
-    public T peekFront() {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public T peekFront() {                   //Shows the front item without removing it - O(1)
+        if (isEmpty()) {                                     //Nothing to show
+            throw new IllegalStateException("Storage is empty."); //replace with StorageEmptyException
+        }
+        return trays[front];                                 //Returns the item at the front
     }
 
     @Override
-    public T peekRear() {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public T peekRear() {                    //Shows the rear item without removing it - O(1)
+        if (isEmpty()) {                                     //Nothing to show
+            throw new IllegalStateException("Storage is empty."); //replace with StorageEmptyException
+        }
+        return trays[rear];                                  //Returns the item at the rear
     }
 
     @Override
