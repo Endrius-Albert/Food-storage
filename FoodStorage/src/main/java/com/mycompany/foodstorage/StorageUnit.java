@@ -84,7 +84,15 @@ public class StorageUnit<T> implements DequeADT<T> {
     }
 
     @Override
-    public void display() {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void display() {                  //Shows all items from front to rear - O(n)
+        if (isEmpty()) {                                     //No data in the system
+            System.out.println("Storage is empty.");
+            return;
+        }
+        System.out.println("Items in storage (front to rear):");
+        for (int i = 0; i < size; i++) {                     //Goes through every stored item
+            int index = (front + i) % CAPACITY;              //Wraps around the array
+            System.out.println((i + 1) + ". " + trays[index]); //Prints position and item
+        }
     }
 }
