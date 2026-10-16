@@ -8,7 +8,6 @@ package com.mycompany.foodstorage;
  *
  * @author endri
  */
-
 public class StorageUnit<T> implements DequeADT<T> {
 
     private static final int CAPACITY = 8;   //Maximum number of trays
@@ -40,8 +39,7 @@ public class StorageUnit<T> implements DequeADT<T> {
         return size;
     }
 
-
-       @Override
+    @Override
     public void addFront(T item) {           //Adds an item at the front - O(1)
         if (item == null) {                                  //Rejects empty items
             throw new IllegalArgumentException("Item cannot be null.");
@@ -94,5 +92,24 @@ public class StorageUnit<T> implements DequeADT<T> {
             int index = (front + i) % CAPACITY;              //Wraps around the array
             System.out.println((i + 1) + ". " + trays[index]); //Prints position and item
         }
+    }
+
+    public int searchByName(String name) {   //Finds the position of a food item by its name - O(n)
+        if (name == null || name.trim().isEmpty()) {         //Rejects empty names
+            throw new IllegalArgumentException("Name cannot be empty.");
+        }
+        if (isEmpty()) {                                     //No data in the system
+            throw new IllegalStateException("Storage is empty."); //replace with StorageEmptyException
+        }
+        for (int i = 0; i < size; i++) {                     //Goes through every stored item, front to rear
+            int index = (front + i) % CAPACITY;              //Wraps around the array
+            if (trays[index] instanceof FoodItem) {          //Only food items have a name
+                FoodItem food = (FoodItem) trays[index];
+                if (food.getName().equalsIgnoreCase(name.trim())) { //Ignores upper/lower case
+                    return i + 1;                            //Position counted from the front (1 = front)
+                }
+            }
+        }
+        return -1;                                           //Not found
     }
 }
