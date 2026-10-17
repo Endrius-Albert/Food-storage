@@ -45,7 +45,7 @@ public class StorageUnit<T> implements DequeADT<T> {
             throw new IllegalArgumentException("Item cannot be null.");
         }
         if (isFull()) {                                      //Storage already has 8 items
-            throw new IllegalStateException("Storage is full."); //replace with StorageFullException
+               throw new StorageFullException("Storage is full. Maximum is 8 items.");
         }
         front = (front - 1 + CAPACITY) % CAPACITY;           //Moves front one position back (wraps around)
         trays[front] = item;                                 //Places the item at the new front
@@ -55,20 +55,34 @@ public class StorageUnit<T> implements DequeADT<T> {
         size++;                                              //One more item stored
     }
 
-    @Override
-    public T removeFront() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        @Override
+    public T removeFront() {                 //Removes the item at the front (LIFO) - O(1)
+        if (isEmpty()) {                                     //Nothing to remove
+            throw new StorageEmptyException("Storage is empty. Nothing to remove.");
+        }
+        T item = trays[front];                               //Saves the front item
+        trays[front] = null;                                 //Clears the tray
+        front = (front + 1) % CAPACITY;                      //Moves front one position forward (wraps around)
+        size--;                                              //One less item stored
+        return item;                                         //Returns the removed item
     }
 
     @Override
-    public T removeRear() {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public T removeRear() {                  //Removes the item at the rear (FIFO) - O(1)
+        if (isEmpty()) {                                     //Nothing to remove
+            throw new StorageEmptyException("Storage is empty. Nothing to remove.");
+        }
+        T item = trays[rear];                                //Saves the rear item
+        trays[rear] = null;                                  //Clears the tray
+        rear = (rear - 1 + CAPACITY) % CAPACITY;             //Moves rear one position back (wraps around)
+        size--;                                              //One less item stored
+        return item;                                         //Returns the removed item
     }
 
     @Override
     public T peekFront() {                   //Shows the front item without removing it - O(1)
         if (isEmpty()) {                                     //Nothing to show
-            throw new IllegalStateException("Storage is empty."); //replace with StorageEmptyException
+            throw new StorageEmptyException("Storage is empty.");
         }
         return trays[front];                                 //Returns the item at the front
     }
@@ -76,7 +90,7 @@ public class StorageUnit<T> implements DequeADT<T> {
     @Override
     public T peekRear() {                    //Shows the rear item without removing it - O(1)
         if (isEmpty()) {                                     //Nothing to show
-            throw new IllegalStateException("Storage is empty."); //replace with StorageEmptyException
+            throw new StorageEmptyException("Storage is empty.");
         }
         return trays[rear];                                  //Returns the item at the rear
     }
@@ -99,7 +113,7 @@ public class StorageUnit<T> implements DequeADT<T> {
             throw new IllegalArgumentException("Name cannot be empty.");
         }
         if (isEmpty()) {                                     //No data in the system
-            throw new IllegalStateException("Storage is empty."); //replace with StorageEmptyException
+            throw new StorageEmptyException("Storage is empty.");
         }
         for (int i = 0; i < size; i++) {                     //Goes through every stored item, front to rear
             int index = (front + i) % CAPACITY;              //Wraps around the array
@@ -112,4 +126,5 @@ public class StorageUnit<T> implements DequeADT<T> {
         }
         return -1;                                           //Not found
     }
+
 }
