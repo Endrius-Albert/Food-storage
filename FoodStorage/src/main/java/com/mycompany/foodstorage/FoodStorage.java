@@ -3,21 +3,26 @@
  */
 
 package com.mycompany.foodstorage;
-
+import java.time.LocalDate;
 /**
  *
  * @author endri
  */
+
+
 public class FoodStorage {
 
     public static void main(String[] args) {
-        StorageUnit<String> storage = new StorageUnit<>();
-        storage.addFront("Burger");
-        storage.addFront("Pizza");
-        storage.addFront("Fries");
+        StorageUnit<FoodItem> storage = new StorageUnit<>();
+        storage.addFront(new Burger(250, LocalDate.now().plusDays(5)));
+        storage.addFront(new Pizza(500, LocalDate.now().plusDays(3)));
+        storage.addFront(new Fries(150, LocalDate.now().plusDays(2)));
 
-        System.out.println("Removed from front: " + storage.removeFront());  
-        System.out.println("Removed from rear: " + storage.removeRear());    
-        System.out.println("Items left: " + storage.size());                        
+        storage.display();
+        System.out.println("Front item: " + storage.peekFront().getName());          
+        System.out.println("Pizza is at position: " + storage.searchByName("pizza")); 
+        System.out.println("Removed (LIFO): " + storage.removeFront().getName());     
+        System.out.println("Removed (FIFO): " + storage.removeRear().getName());      
+        storage.display();                                                           
     }
 }
