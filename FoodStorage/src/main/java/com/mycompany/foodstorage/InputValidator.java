@@ -40,7 +40,7 @@ public class InputValidator {
                 }
                 System.out.println("Please enter a number between " + min + " and " + max + ".");
             } catch (NumberFormatException e) {              //User typed letters or symbols
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println("Invalid input. Please enter a whole number.");
             }
         }
     }
